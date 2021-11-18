@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Hola CA</string>
+    <string name="login_title">La App de Camilo</string>
+    <string name="name_hint">Ingrese su nombre</string>
+    <string name="password_hint">Ingrese su contaseña</string>
+    <string name="enter">Entrar</string>
+    <string name="calc_avg">Calcular promedio</string>
+    <string name="calculate">Calcular</string>
+    <string name="zero_avg">Promedio = 0</string>
+    <string name="back">Regresar</string>
+    <string name="first_number">Ingrese el primer número</string>
+    <string name="second_number">Ingrese el segundo número</string>
+    <string name="avg_equals">Promedio = %1$s</string>
+    <string name="contacts">Contactos</string>
+    <string name="do_order">Realizar Pedido</string>
+    <string name="orders">Pedidos</string>
+    <string name="chicken">Pollo</string>
+    <string name="salami">Salami</string>
+    <string name="ham">Jamón</string>
+    <string name="strOrderBase">Pedido realizado con los siguientes ingredientes: </string>
+    <string name="special_pizza">Pizza especial</string>
+    <string name="home_pizza">Deliciosa pizza de la casa</string>
+    <string name="pizza_description">Pizza de carnes especialmente preparada por el restaurante a partir de los ingredientes seleccionados.</string>
+</resources>
