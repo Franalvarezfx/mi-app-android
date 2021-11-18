@@ -2,7 +2,9 @@ package com.misiontic.holaca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +15,14 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etName;
 
+    SharedPreferences settings; //SP
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        settings = getSharedPreferences("id", Context.MODE_PRIVATE); //SP
     }
 
     // Método para generar el menú
@@ -45,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         String nombre = etName.getText().toString();
 
         calculator.putExtra("user", nombre);
+
+        //SP
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("id",1);
+        editor.putString("usuario", nombre);
+        editor.commit();
+        //
 
         startActivity(calculator);
     }

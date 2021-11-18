@@ -2,7 +2,9 @@ package com.misiontic.holaca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -16,10 +18,14 @@ public class CalculatorActivity extends AppCompatActivity {
     private EditText etNumberTwo;
     private TextView tvResult;
 
+    SharedPreferences settings; //SP
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
+
+        settings = getSharedPreferences("id", Context.MODE_PRIVATE); //SP
 
         String nombre = getIntent().getStringExtra("user");
 
@@ -39,6 +45,12 @@ public class CalculatorActivity extends AppCompatActivity {
         Resources res = getResources();
         String text = String.format(res.getString(R.string.avg_equals), String.valueOf(average));
         tvResult.setText(text);
+
+        //SP
+        int id = settings.getInt("id",0);
+        String usuario = settings.getString("usuario", "");
+        Toast.makeText(this, "Promedio calculado para usuario: " + id + "-" + usuario, Toast.LENGTH_SHORT).show();
+        //
     }
 
     public void goToLogin(View view) {
