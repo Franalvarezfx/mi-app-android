@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.misiontic.holaca.db.MySQLiteHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText etName;
@@ -44,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void goToCalculator(View view) {
+
+        //BD
+        MySQLiteHelper conexion_bd = new MySQLiteHelper(this);
+        conexion_bd.insertData("INSERT INTO people (firstname, lastname, email) VALUES('Maria', 'Avila', 'majo@correo.com')");
+        //
+
         Intent calculator = new Intent(this, CalculatorActivity.class);
         // Intent calculator = new Intent(this, ScrollActivity.class);
 
