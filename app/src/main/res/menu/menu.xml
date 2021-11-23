@@ -8,4 +8,7 @@
     <item
         android:id="@+id/item_pedidos"
         android:title="@string/orders" />
+    <item
+        android:id="@+id/item_formulario"
+        android:title="@string/form" />
 </menu>

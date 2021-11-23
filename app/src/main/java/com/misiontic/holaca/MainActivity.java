@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             goToContacts();
         } else if (id == R.id.item_pedidos) {
             goToOrders();
+        } else if (id == R.id.item_formulario) {
+            goToPersonForm();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -48,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
     public void goToCalculator(View view) {
 
         //BD
+        /*
         MySQLiteHelper conexion_bd = new MySQLiteHelper(this);
         conexion_bd.insertData("INSERT INTO people (firstname, lastname, email) VALUES('Maria', 'Avila', 'majo@correo.com')");
+        */
         //
 
         Intent calculator = new Intent(this, CalculatorActivity.class);
@@ -61,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         calculator.putExtra("user", nombre);
 
         //SP
-        /*SharedPreferences.Editor editor = settings.edit();
+        SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id",1);
         editor.putString("usuario", nombre);
-        editor.commit();*/
+        editor.commit();
         //
 
         startActivity(calculator);
@@ -78,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
     public void goToOrders() {
         Intent intentOrder = new Intent(this, OrderActivity.class);
         startActivity(intentOrder);
+    }
+
+    public void goToPersonForm() {
+        Intent intentForm = new Intent(this, PersonFormActivity.class);
+        startActivity(intentForm);
     }
 
 

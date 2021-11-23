@@ -1,6 +1,7 @@
 package com.misiontic.holaca.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -35,6 +36,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void insertData(String sentence) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sentence);
+    }
+
+    public Cursor getData(String sentence, String[] params) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sentence, params);
+        return c;
     }
 
 }
