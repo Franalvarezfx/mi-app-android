@@ -11,8 +11,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "camilo_db.sqlite";
     private static final int DB_VERSION = 1;
 
-    private static final String PEOPLE_TABLE_CREATE = "CREATE TABLE people(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                                        "firstname TEXT, lastname TEXT, email TEXT)";
+    private static final String PEOPLE_TABLE_CREATE = "CREATE TABLE personas(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                                        "nombres TEXT, apellidos TEXT, direccion TEXT, telefono TEXT, " +
+                                                        "fecha_nacimiento DATE, foto TEXT)";
+
 
 
 

@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         calculator.putExtra("user", nombre);
 
         //SP
-        SharedPreferences.Editor editor = settings.edit();
+        /*SharedPreferences.Editor editor = settings.edit();
         editor.putInt("id",1);
         editor.putString("usuario", nombre);
-        editor.commit();
+        editor.commit();*/
         //
 
         startActivity(calculator);
