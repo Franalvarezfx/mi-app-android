@@ -12,18 +12,18 @@
         android:background="@drawable/border"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/pitangus" />
+            android:src="@drawable/ave" />
 
         <TextView
             android:id="@+id/tvContactName"
             android:layout_width="500dp"
             android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="2"
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:text="1 - Pepito Perez" />

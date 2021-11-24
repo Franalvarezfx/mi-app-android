@@ -29,18 +29,16 @@ public class ContactListViewAdapter extends ArrayAdapter<String> {
         list = items;
     }
 
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView (int position, @Nullable View convertView, @NonNull ViewGroup parent){
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.contact_list_row, null);
-
-            TextView tvContactName = convertView.findViewById(R.id.tvContactName);
-            ImageView ivContact = convertView.findViewById(R.id.ivContact);
-
-            tvContactName.setText(list.get(position));
         }
-        return convertView;
+        TextView tvContactName = convertView.findViewById(R.id.tvContactName);
+        tvContactName.setText(list.get(position));
+
+        return  convertView;
     }
 
 }
