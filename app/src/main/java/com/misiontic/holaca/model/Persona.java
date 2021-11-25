@@ -70,7 +70,7 @@ public class Persona {
 
     }
 
-    public Persona(String nombres, String apellidos, String direccion, String telefono, String fecha_nacimiento, String foto) {
+    public Persona (String nombres, String apellidos, String direccion, String telefono, String fecha_nacimiento, String foto) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.direccion = direccion;

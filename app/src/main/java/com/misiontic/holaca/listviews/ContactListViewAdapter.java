@@ -14,16 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.misiontic.holaca.R;
+import com.misiontic.holaca.model.Persona;
 
 import java.util.ArrayList;
 
 
-public class ContactListViewAdapter extends ArrayAdapter<String> {
+public class ContactListViewAdapter extends ArrayAdapter<Persona> { // Cambiado
 
-    ArrayList<String> list;
+    ArrayList<Persona> list; // Cambiado
     Context context;
 
-    public ContactListViewAdapter(Context context, ArrayList<String> items) {
+    public ContactListViewAdapter(Context context, ArrayList<Persona> items) { // Cambiado
         super(context, R.layout.contact_list_row, items);
         this.context = context;
         list = items;
@@ -35,8 +36,14 @@ public class ContactListViewAdapter extends ArrayAdapter<String> {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.contact_list_row, null);
         }
+
         TextView tvContactName = convertView.findViewById(R.id.tvContactName);
-        tvContactName.setText(list.get(position));
+        TextView tvPhone = convertView.findViewById(R.id.tvContactPhone);
+
+        String fullName = list.get(position).getNombres() + " " + list.get(position).getApellidos();
+        tvContactName.setText(fullName);
+
+        tvPhone.setText(list.get(position).getTelefono());
 
         return  convertView;
     }

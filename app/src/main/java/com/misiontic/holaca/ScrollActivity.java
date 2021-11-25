@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.misiontic.holaca.db.MySQLiteHelper;
 import com.misiontic.holaca.listviews.ContactListViewAdapter;
+import com.misiontic.holaca.model.Persona;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class ScrollActivity extends AppCompatActivity {
     private TextView tvContactName;
 
     // lv
-    private ArrayList<String> contactList;
+    private ArrayList<Persona> contactList; // Cambiado
     private static ListView listView;
     private static ContactListViewAdapter adapter;
     //
@@ -43,6 +44,9 @@ public class ScrollActivity extends AppCompatActivity {
         int id;
         String nombre;
         String apellidos;
+        String direccion;
+        String telefono;
+        String fecha_nacimiento;
 
         MySQLiteHelper conexion_bd = new MySQLiteHelper(this);
         String sentence = "SELECT * FROM personas";
@@ -56,7 +60,13 @@ public class ScrollActivity extends AppCompatActivity {
                 id = resultados.getInt(0);
                 nombre = resultados.getString(1);
                 apellidos = resultados.getString(2);
-                contactList.add(nombre + " " + apellidos);
+                direccion = resultados.getString(3);
+                telefono = resultados.getString(4);
+                fecha_nacimiento = resultados.getString(5);
+
+                Persona nuevoContacto = new Persona(nombre, apellidos, direccion, telefono, fecha_nacimiento, null);
+                contactList.add(nuevoContacto);
+
             } while (resultados.moveToNext());
 
             // tv
