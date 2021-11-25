@@ -26,10 +26,6 @@ public class CalculatorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calculator);
 
         settings = getSharedPreferences("id", Context.MODE_PRIVATE); //SP
-
-        String nombre = getIntent().getStringExtra("user");
-
-        Toast.makeText(this, "Bienvenido(a) " + nombre, Toast.LENGTH_SHORT).show();
     }
 
     public void calcularPromedio(View view) {
@@ -51,11 +47,6 @@ public class CalculatorActivity extends AppCompatActivity {
         String usuario = settings.getString("usuario", "");
         Toast.makeText(this, "Promedio calculado para usuario: " + id + "-" + usuario, Toast.LENGTH_SHORT).show();
         //
-    }
-
-    public void goToLogin(View view) {
-        Intent login = new Intent(this, MainActivity.class);
-        startActivity(login);
     }
 
 }

@@ -11,4 +11,10 @@
     <item
         android:id="@+id/item_formulario"
         android:title="@string/form" />
+    <item
+        android:id="@+id/item_calculadora"
+        android:title="@string/calc_avg" />
+    <item
+        android:id="@+id/item_salir"
+        android:title="@string/exit" />
 </menu>

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HolaCA">
         <activity
+            android:name=".WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".PersonFormActivity"
             android:exported="false" />
         <activity
