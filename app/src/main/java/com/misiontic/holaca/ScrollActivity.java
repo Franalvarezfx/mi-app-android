@@ -2,8 +2,11 @@ package com.misiontic.holaca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +68,7 @@ public class ScrollActivity extends AppCompatActivity {
                 fecha_nacimiento = resultados.getString(5);
 
                 Persona nuevoContacto = new Persona(nombre, apellidos, direccion, telefono, fecha_nacimiento, null);
+                nuevoContacto.setId(id);
                 contactList.add(nuevoContacto);
 
             } while (resultados.moveToNext());
@@ -74,12 +78,32 @@ public class ScrollActivity extends AppCompatActivity {
             listView.setAdapter(adapter);
             //
 
+            // clickable
+            // Display the item name when the item's row is clicked
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Persona seleccionado =  (Persona) listView.getItemAtPosition(position);
+                    int idPerson = seleccionado.getId();
+                    goToContactUpdate(idPerson);
+                    // String clickedItem = seleccionado.getNombres();
+                    // Toast.makeText(ScrollActivity.this, clickedItem, Toast.LENGTH_SHORT).show();
+                }
+            });
+            //
+
         } catch (Exception e) {
             Toast.makeText(this, "Error al realizar la consulta", Toast.LENGTH_LONG).show();
         }
         finally {
             resultados.close();
         }
+    }
+
+    public void goToContactUpdate(int idPerson) {
+        Intent intentUpdate = new Intent(this, ContactUpdateActivity.class);
+        intentUpdate.putExtra("person", idPerson);
+        startActivity(intentUpdate);
     }
 
 }
