@@ -54,6 +54,7 @@ public class ContactUpdateActivity extends AppCompatActivity {
         etPhone.setText(resultado.getString(4));
         etBirthday.setText(resultado.getString(5));
 
+        resultado.close();
     }
 
     public void actualizarContacto(View view) {
