@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "270644373152",
+    "project_id": "app-test-ca",
+    "storage_bucket": "app-test-ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270644373152:android:255b178b93061a83738bc5",
+        "android_client_info": {
+          "package_name": "com.misiontic.holaca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270644373152-rgf2fc9n92nfla9m69o0chfl1idbj9og.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8oygo2vcdENpBXrTZWia9eRqn9QwGn78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270644373152-rgf2fc9n92nfla9m69o0chfl1idbj9og.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
