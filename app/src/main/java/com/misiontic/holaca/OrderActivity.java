@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.misiontic.holaca.api.ApiRequest;
+import com.misiontic.holaca.model.Producto;
+
+import java.util.ArrayList;
+
 public class OrderActivity extends AppCompatActivity {
 
     @Override
@@ -43,6 +48,12 @@ public class OrderActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, strPedido, Toast.LENGTH_LONG).show();
+
+        // Test API
+        ApiRequest api = new ApiRequest();
+        ArrayList<Producto> losProductos = api.consultarProductos(this);
+        // Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+
     }
 
 }
