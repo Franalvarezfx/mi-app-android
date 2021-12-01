@@ -53,22 +53,16 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         String contrasena = etPassword.getText().toString();
 
-        checkUser(nombre, contrasena); //FB
+        welcomeIntent.putExtra("user", nombre);
 
-        if (success) {
-            welcomeIntent.putExtra("user", nombre);
+        // SP
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("id", 1);
+        editor.putString("usuario", nombre);
+        editor.commit();
+        //
 
-            //SP
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("id", 1);
-            editor.putString("usuario", nombre);
-            editor.commit();
-            //
-
-            startActivity(welcomeIntent);
-        } else {
-            Toast.makeText(this, "Usuario y/o contraseña no válidos", Toast.LENGTH_SHORT).show();
-        }
+        checkUser(nombre, contrasena, welcomeIntent);
     }
 
     public void goToNewUser(View view) {
@@ -76,31 +70,31 @@ public class MainActivity extends AppCompatActivity {
         startActivity(newUserIntent);
     }
 
-    public boolean checkUser(String nombre, String contrasena) { //FB
+    public void checkUser(String nombre, String contrasena, Intent intentMain) { //FB
 
         // Read from the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("usuarios");
+        myRef.child("u_" + nombre).addValueEventListener(new ValueEventListener(){
 
-        myRef.child("u_" + nombre).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario value = dataSnapshot.getValue(Usuario.class);
-                if (value != null) {
+            public void onDataChange(DataSnapshot snapshot) {
+                Usuario value = snapshot.getValue(Usuario.class);
+                if(value != null) {
                     String saved_password = value.getContrasena();
                     if (saved_password.equals(contrasena)) {
-                        success = true;
+                        startActivity(intentMain);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Usuario y/o contraseña no válidos", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Toast.makeText(MainActivity.this, "Failed to read value." + error.toException(), Toast.LENGTH_SHORT).show();
             }
         });
-        return success;
     }
 
 

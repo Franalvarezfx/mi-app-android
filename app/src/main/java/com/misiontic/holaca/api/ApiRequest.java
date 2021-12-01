@@ -6,6 +6,7 @@ import android.util.JsonReader;
 import android.widget.Toast;
 
 
+import com.misiontic.holaca.model.Pedido;
 import com.misiontic.holaca.model.Producto;
 
 import java.io.InputStream;
@@ -19,23 +20,26 @@ import javax.net.ssl.HttpsURLConnection;
 public class ApiRequest {
 
     public ArrayList<Producto> consultarProductos(Context context) {
+
         ArrayList<Producto> productoList = new ArrayList<Producto>();
+
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
 
-                URL pizzaEndpoint = null;
+                URL productosEndpoint = null;
                 try {
-                    // Create URL
-                    pizzaEndpoint = new URL("https://tienda-ca-api.herokuapp.com/api/pizzeria/productos");
+                    // Crea url
+                    productosEndpoint = new URL("https://tienda-ca-api.herokuapp.com/api/pizzeria/productos");
 
-                    //Create connection
-                    HttpsURLConnection conexion = (HttpsURLConnection) pizzaEndpoint.openConnection();
+                    // Crea conexión
+                    HttpsURLConnection conexion = (HttpsURLConnection) productosEndpoint.openConnection();
 
                     // Headers
                     conexion.setRequestProperty("Dato", "Hola");
 
                     if (conexion.getResponseCode() == 200) {
+
                         InputStream responseBody = conexion.getInputStream();
                         InputStreamReader responseBodyReader = new InputStreamReader(responseBody, StandardCharsets.UTF_8);
 
@@ -48,36 +52,39 @@ public class ApiRequest {
                         String desc_larga = "";
                         Double precio = 0.0;
 
+                        String key = "";
 
                         reader.beginArray();
                         while (reader.hasNext()) {
                             reader.beginObject();
                             while (reader.hasNext()) {
-                                String key = reader.nextName();
-                                if (key.equals("nombre")) {
-                                    nombreProducto = reader.nextString();
+                                key = reader.nextName();
+                                if (key.equals("_id")) {
+                                    id = reader.nextString();
                                 } else if (key.equals("codigo")) {
                                     codigo = reader.nextString();
+                                } else if (key.equals("nombre")) {
+                                    nombreProducto = reader.nextString();
                                 } else if (key.equals("desc_corta")) {
                                     desc_corta = reader.nextString();
                                 } else if (key.equals("desc_larga")) {
                                     desc_larga = reader.nextString();
                                 } else if (key.equals("precio")) {
                                     precio = reader.nextDouble();
-                                } else if (key.equals("_id")) {
-                                    id = reader.nextString();
                                 } else {
                                     reader.skipValue();
                                 }
                             }
                             reader.endObject();
-                            productoList.add(new Producto(id, codigo, nombreProducto, desc_corta, desc_larga,precio));
+                            productoList.add(new Producto(id, codigo, nombreProducto, desc_corta, desc_larga, precio));
                         }
                         reader.endArray();
+                        reader.close();
 
                     } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error al momento de consultar productos", Toast.LENGTH_SHORT).show();
                     }
+                    conexion.disconnect();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -87,5 +94,38 @@ public class ApiRequest {
         return productoList;
     }
 
+
+    public void guardarPedido(Pedido nuevoPedido, Context context) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                URL productosEndpoint = null;
+                try {
+                    // Crea url
+                    productosEndpoint = new URL("https://tienda-ca-api.herokuapp.com/api/nuevo-pedido");
+                    // Crea conexión
+                    HttpsURLConnection conexion = (HttpsURLConnection) productosEndpoint.openConnection();
+
+                    conexion.setDoOutput(true);
+                    conexion.setRequestMethod("POST");
+                    conexion.setRequestProperty("Content-Type", "application/json");
+
+                    String requestBody = "{\"data\": " +
+                            "    {" +
+                            "    \"usuario\": \""+ nuevoPedido.getUsuario() +"\"," +
+                            "    \"producto\": \""+ nuevoPedido.getProducto() +"\"," +
+                            "    \"total\": " + nuevoPedido.getTotal() +"," +
+                            "    \"ubicacion\": \""+ nuevoPedido.getUbicacion() +"\"" +
+                            "    }" +
+                            "}";
+                    conexion.getOutputStream().write(requestBody.getBytes(StandardCharsets.UTF_8));
+                    conexion.getResponseCode();
+                    conexion.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
 }

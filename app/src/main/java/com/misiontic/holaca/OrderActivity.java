@@ -2,6 +2,8 @@ package com.misiontic.holaca;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,14 +11,18 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.misiontic.holaca.api.ApiRequest;
+import com.misiontic.holaca.model.Pedido;
 import com.misiontic.holaca.model.Producto;
 
 import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
 
+    private SharedPreferences settings; // SP
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        settings = getSharedPreferences("id", Context.MODE_PRIVATE); // SP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
@@ -27,6 +33,11 @@ public class OrderActivity extends AppCompatActivity {
                 realizarPedido();
             }
         });
+
+        // Test API
+        ApiRequest api = new ApiRequest();
+        ArrayList<Producto> listadoProductos = api.consultarProductos(this);
+        // Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
     }
 
     public void realizarPedido() {
@@ -47,12 +58,19 @@ public class OrderActivity extends AppCompatActivity {
             strPedido = strPedido.concat("jamón ");
         }
 
-        Toast.makeText(this, strPedido, Toast.LENGTH_LONG).show();
+        //SP
+        String usuario = settings.getString("usuario", "error");
+        //
 
-        // Test API
+        // API
+        Pedido nuevoPedido = new Pedido(usuario, strPedido, 1200.0, "0.0");
         ApiRequest api = new ApiRequest();
-        ArrayList<Producto> losProductos = api.consultarProductos(this);
-        // Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+        api.guardarPedido(nuevoPedido, this);
+        //
+
+        strPedido = strPedido.concat(" para el señor(a) " + usuario);
+
+        Toast.makeText(this, strPedido, Toast.LENGTH_LONG).show();
 
     }
 
