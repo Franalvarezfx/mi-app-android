@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.misiontic.holaca.db.MySQLiteHelper;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class PersonFormActivity extends AppCompatActivity {
 
@@ -65,12 +70,12 @@ public class PersonFormActivity extends AppCompatActivity {
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent data = result.getData();
-                /*Uri imageUri = data.getData();*/
+
                 Bundle extras = data.getExtras();
                 Bitmap imgBitmap = (Bitmap) extras.get("data");
                 ivPicture.setImageBitmap(imgBitmap);
 
-                /*ivPicture.setImageURI(imageUri);*/
+                // // // // saveToGallery();
             } else {
                 Toast.makeText(PersonFormActivity.this, "Fotografía cacelada", Toast.LENGTH_SHORT).show();
             }
@@ -78,17 +83,34 @@ public class PersonFormActivity extends AppCompatActivity {
     });
 
 
-    /*
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imgBitmap = (Bitmap) extras.get("data");
-            imgView.setImageBitmap(imgBitmap);
+    private void saveToGallery(){
+        Bitmap bitmap = ((BitmapDrawable)ivPicture.getDrawable()).getBitmap();
+
+        FileOutputStream outputStream = null;
+        File file = Environment.getExternalStorageDirectory();
+        File dir = new File(file.getAbsolutePath() + "/MyTestPics");
+        dir.mkdirs();
+
+        String filename = String.format("%d.png",System.currentTimeMillis());
+        File outFile = new File(dir,filename);
+        try{
+            outputStream = new FileOutputStream(outFile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
+        try{
+            outputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            outputStream.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
-
-     */
 
 
 
