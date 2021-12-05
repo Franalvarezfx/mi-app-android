@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hola CA</string>
+    <string name="app_name">App de Camilo</string>
     <string name="login_title">La App de Camilo</string>
     <string name="name_hint">Ingrese su nombre</string>
     <string name="password_hint">Ingrese su contaseña</string>
