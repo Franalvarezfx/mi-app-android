@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.misiontic.holaca.api.ApiRequest;
+import com.misiontic.holaca.location.MyLocation;
 import com.misiontic.holaca.model.Pedido;
 import com.misiontic.holaca.model.Producto;
 
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 public class OrderActivity extends AppCompatActivity {
 
     private SharedPreferences settings; // SP
+
+    private String ubicacion;
+    MyLocation coordenadas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,10 @@ public class OrderActivity extends AppCompatActivity {
         // Test API
         ApiRequest api = new ApiRequest();
         ArrayList<Producto> listadoProductos = api.consultarProductos(this);
-        // Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+
+        // Crea objeto de geolocalización
+        coordenadas = new MyLocation(this, OrderActivity.this);
+
     }
 
     public void realizarPedido() {
@@ -62,8 +69,11 @@ public class OrderActivity extends AppCompatActivity {
         String usuario = settings.getString("usuario", "error");
         //
 
+
+        ubicacion = coordenadas.getLatitud() + "," + coordenadas.getLongitud();
+
         // API
-        Pedido nuevoPedido = new Pedido(usuario, strPedido, 1200.0, "0.0");
+        Pedido nuevoPedido = new Pedido(usuario, strPedido, 1200.0, ubicacion);
         ApiRequest api = new ApiRequest();
         api.guardarPedido(nuevoPedido, this);
         //

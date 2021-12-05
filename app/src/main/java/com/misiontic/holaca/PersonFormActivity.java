@@ -5,9 +5,12 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -75,7 +78,6 @@ public class PersonFormActivity extends AppCompatActivity {
                 Bitmap imgBitmap = (Bitmap) extras.get("data");
                 ivPicture.setImageBitmap(imgBitmap);
 
-                // // // // saveToGallery();
             } else {
                 Toast.makeText(PersonFormActivity.this, "Fotografía cacelada", Toast.LENGTH_SHORT).show();
             }
@@ -83,32 +85,39 @@ public class PersonFormActivity extends AppCompatActivity {
     });
 
 
-    private void saveToGallery(){
-        Bitmap bitmap = ((BitmapDrawable)ivPicture.getDrawable()).getBitmap();
+    private void saveToGallery() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Bitmap bitmap = ((BitmapDrawable) ivPicture.getDrawable()).getBitmap();
 
-        FileOutputStream outputStream = null;
-        File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/MyTestPics");
-        dir.mkdirs();
+            FileOutputStream outputStream = null;
 
-        String filename = String.format("%d.png",System.currentTimeMillis());
-        File outFile = new File(dir,filename);
-        try{
-            outputStream = new FileOutputStream(outFile);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
-        try{
-            outputStream.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        try{
-            outputStream.close();
-        }
-        catch (Exception e){
-            e.printStackTrace();
+            File dir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Fotos_ca");
+
+            dir.mkdirs();
+
+            String filename = String.format("%d.png", System.currentTimeMillis());
+            File outfile = new File (dir, filename);
+
+            try {
+                // Archivo guardado en
+                // \Android\data\com.misiontic.holamundo05\files\Pictures\Fotos_ca
+                outputStream = new FileOutputStream(outfile);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                outputStream.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            ActivityCompat.requestPermissions(PersonFormActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 44);
         }
     }
 
@@ -127,13 +136,17 @@ public class PersonFormActivity extends AppCompatActivity {
                 "VALUES ('"+name+"', '"+lastname+"', '"+address+"', '"+phone+"', '"+birthday+"')";
 
         boolean success = conexion_bd.insertData(insert_query);
+        //
+
+        saveToGallery();
+
         if (success) {
             Toast.makeText(this, "Persona guardada con éxito", Toast.LENGTH_LONG).show();
             limpiarFormulario();
         } else {
             Toast.makeText(this, "Error al guardar la persona", Toast.LENGTH_LONG).show();
         }
-        //
+
     }
 
     public void limpiarFormulario(View view) {
